@@ -1,5 +1,5 @@
 #include <iostream>;
-#include <cmath>; 
+#include <cmath>;
 namespace chernikov {
   struct p_t {
     double x;
@@ -59,6 +59,29 @@ namespace chernikov {
   chernikov::r_t chernikov::getTotalFrame(IShape **shps, size_t size);
 }
 int main() {
+  chernikov::Rectangle r(10, 2, {6, 8});
+  chernikov::p_t points[4] = {{0, 1}, {4, 6}, {3, 3}, {9.4, 3.3}};
+  chernikov::Diamond d(5.2, {5, 5});
+  try {
+    chernikov::Polygon p(4, points);
+    chernikov::IShape *shps[3] = {std::addressof(r), std::addressof(d), std::addressof(p)};
+    chernikov::output(std::cout, shps, 3);
+    chernikov::p_t point = {};
+    double ct = 0;
+    if (!(std::cin >> point.x >> point.y >> ct)) {
+      std::cerr << "failed to count input" << "\n";
+    return 1;
+    }
+    if (ct <= 0) {
+      std::cerr << "Negative coef" << "\n";
+    return 1;
+    }
+    chernikov::scaleFromPoint(shps, 3, point, ct);
+    chernikov::output(std::cout, shps, 3);
+    } catch (std::bad_alloc &e) {
+      std::cerr << "failed to allocate memory" << "\n";
+    return 2;
+  }
   return 0;
 }
 
